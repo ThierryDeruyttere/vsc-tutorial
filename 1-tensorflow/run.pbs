@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Set Torque job scheduling parameters:
+
+# Specify that we want this job to run on a GPU node
+#PBS -l partition=gpu
+
+# We'll take 1 node and 1 GPU on it. `ppn` (number of CPU cores) should be equal to num_gpus * 9.
+#PBS -l nodes=1:ppn=9:gpus=1
+
+# This job will not run longer than 5 minutes 
+#   (In general: the lower this value, the faster your job gets scheduled. Be aware that after this time, your job is killed.)
+#PBS -l walltime=00:05:00
+
+# Specify the name of the account that contains credits to use for this job.
+#PBS -A ltutorial_liir
+
+# Optionally, you can specify a job name (easy to recognize in the output of `qstat`)
+#PBS -N vsc-tutorial-tensorflow 
+
+# Define the project directory and set it as the working directory.
+PROJECT_ROOT=$VSC_DATA/vsc-tutorial/1-tensorflow/
+cd $PROJECT_ROOT
+
+# Activate Conda environment.
+source $HOME/.bashrc
+conda activate tutorial
+
+# Load CUDA and cuDNN module
+module load cuDNN/7.4.1-CUDA-10.0.130
+
+# Log to output file (.o extension).
+echo "Starting job."
+date
+
+# Run the MNIST tutorial.
+python mnist_tutorial.py
+
+# Log to output file.
+echo "Job ended."
+
