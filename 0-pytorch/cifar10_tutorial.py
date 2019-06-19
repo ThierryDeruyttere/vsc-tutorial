@@ -69,7 +69,7 @@ transform = transforms.Compose(
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 import os
-data_dir = os.path.join(os.environ['VSC_DATA'], 'vsc-tutorial/pytorch-0/data')
+data_dir = os.path.join(os.environ['VSC_DATA'], 'pytorch-0/data')
 trainset = torchvision.datasets.CIFAR10(root=data_dir, train=True,
                                         download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
