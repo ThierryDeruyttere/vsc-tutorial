@@ -69,7 +69,7 @@ transform = transforms.Compose(
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 import os
-data_dir = os.path.join(os.environ['VSC_DATA'], 'pytorch-0/data')
+data_dir = os.path.join(os.environ['VSC_DATA'], '0-pytorch/data')
 trainset = torchvision.datasets.CIFAR10(root=data_dir, train=True,
                                         download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
@@ -83,8 +83,20 @@ testloader = torch.utils.data.DataLoader(testset, batch_size=4,
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
+
+print(torch.cuda.is_available())
+### Set GPU device
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+# Assuming that we are on a CUDA machine, this should print a CUDA device:
+print(device)
+#if device == "cpu":
+#    exit()
+
+
 ########################################################################
 # Let us show some of the training images, for fun.
+
+
 
 #import matplotlib.pyplot as plt
 import numpy as np
@@ -107,11 +119,6 @@ images, labels = dataiter.next()
 #imshow(torchvision.utils.make_grid(images))
 # print labels
 print(' '.join('%5s' % classes[labels[j]] for j in range(4)))
-
-### Set GPU device
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-# Assuming that we are on a CUDA machine, this should print a CUDA device:
-print(device)
 
 ########################################################################
 # 2. Define a Convolutional Neural Network
